@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profile_photo')->nullable();
-            $table->foreignId('roles')->default('3')->comment('1 for Super Admin, 2 for Admin Hubin, 3 for Siswa, 4 for Pembimbing Sekolah, 5 for Pembimbing Perusahaan');
+            $table->integer('roles')->default('3')->comment('1 for Super Admin, 2 for Admin Hubin, 3 for Siswa, 4 for Pembimbing Sekolah, 5 for Pembimbing Perusahaan');
             $table->rememberToken();
             $table->timestamps();
         });
