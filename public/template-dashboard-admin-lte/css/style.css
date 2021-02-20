@@ -1,0 +1,65 @@
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+.main-sidebar .judul {
+  font-size: 25px;
+}
+
+.sidebar .info a {
+  margin-top: -10px;
+}
+
+
+/* Poliklinik CRUD */
+#table-section {
+  padding-top: 0px;
+}
+
+#create-pasien {
+  padding-top: 0px;
+}
+
+#table-section .container thead {
+  font-size: 15px;
+}
+
+#table-section .container tbody {
+  font-size: 14px;
+}
+
+#table-section .container .tombol {
+  margin-left: 620px;
+}
+
+.table>thead>tr>th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+#create-pasien .container {
+  width: 500px;
+}
+
+#table-user .container th td {
+  font-size: 12px;
+}
+#list-pengajuan .container-fluid .table th {
+  font-size: 14px;
+}
+#list-pengajuan .container-fluid .table td {
+  font-size: 13px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
