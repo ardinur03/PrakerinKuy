@@ -24,30 +24,47 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="#" class="nav-link active">
+                    <li class="nav-item">
+                        <?php $role = Auth::user()->roles; ?>
+                        <a href="@if ($role == 1)
+                                    {{ '/admin/dashboard' }}
+                                @elseif($role == 2)
+                                    {{ route('hubin.dashboard') }}
+                                @elseif($role == 3)
+                                    {{ '/dashboard' }}    
+                                @endif" class="nav-link {{ request()->is('hubin/dashboard') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p class="ml-2">
+                                Dashboard
+                                {{--  <span class="right badge badge-danger">New</span>  --}}
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item has-treeview mt-2 {{ request()->is('hubin/siswa') ? 'menu-open' : '' }}"> {{-- <i class="right fas fa-angle-left"></i> --}}
+                        <a href="#" class="nav-link {{ request()->is('hubin/siswa') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                Starter Pages
+                                Data Master
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="{{ route('hubin.index.siswa') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Active Page</p>
+                                    <p>Siswa</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Inactive Page</p>
+                                    <p>Perusahaan</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
+
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
