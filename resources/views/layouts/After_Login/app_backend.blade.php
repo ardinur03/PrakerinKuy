@@ -11,15 +11,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <title>{{ $title ?? config('app.name') }}</title>
 
-  <!-- Font Awesome Icons -->
+  {{--  Font Awesome Icons  --}}
   <link rel="stylesheet" href="{{ asset('template-dashboard-admin-lte') }}/plugins/fontawesome-free/css/all.min.css">
   
-  <!-- Theme style -->
+  {{--  Theme style  --}}
   <link rel="stylesheet" href="{{ asset('template-dashboard-admin-lte') }}/dist/css/adminlte.min.css">
   
-  <!-- Google Font: Source Sans Pro -->
+  {{--  Google Font: Source Sans Pro  --}}
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+  {{--  CSS CUSTOM  --}}
+  <link rel="stylesheet" href="{{ asset('template-dashboard-admin-lte')}}/css/custom.css">
+  
   @livewireStyles
 
 </head>
