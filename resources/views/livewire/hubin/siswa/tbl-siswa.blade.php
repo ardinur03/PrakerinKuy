@@ -1,6 +1,5 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -9,8 +8,9 @@
                         <h3 class="card-title">{{ $title }}</h3>
 
                         <div class="card-tools">
-                            <a href="#" class="btn btn-success btn-sm"><i class="fas fa-user-graduate"></i> <i
-                                    class="fas fa-plus"></i> </a>
+                            <button data-toggle="modal" data-target="#modal_create_siswa"
+                                class="btn btn-success btn-sm"><i class="fas fa-user-graduate"></i> <i
+                                    class="fas fa-plus"></i> </button>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                                     class="fas fa-minus"></i></button>
                         </div>
@@ -27,7 +27,7 @@
                         <div class="container">
                             <table class="table table-responsive-md table-sm table-hover">
                                 <thead class="bg-primary judul">
-                                    <tr>
+                                    <tr class="text-center">
                                         <th scope="col">No</th>
                                         <th>NIS</th>
                                         <th>Nama Siswa</th>
@@ -77,7 +77,7 @@
             <!-- /.card -->
         </div>
 
+        <livewire:hsiswa.siswa-create :jurusan="$jurusan"></livewire:hsiswa.siswa-create>
     </div>
-
 
 </div>

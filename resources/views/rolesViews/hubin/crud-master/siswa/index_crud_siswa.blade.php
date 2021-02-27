@@ -1,0 +1,1 @@
+    <livewire:siswa.tbl-siswa></livewire:siswa.tbl-siswa>

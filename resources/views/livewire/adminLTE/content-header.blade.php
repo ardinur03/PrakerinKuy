@@ -11,12 +11,23 @@
                 <div class="col-md-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            <a href="/hubin" class="text-decoration-none"><i class="fas fa-home"> Dashboard</i>
+                            <?php $role = Auth::user()->roles; ?>
+                            <a href="@if ($role == 1)
+                                    {{ '/admin/dashboard' }}
+                                @elseif($role == 2)
+                                    {{ route('hubin.dashboard') }}
+                                @elseif($role == 3)
+                                    {{ '/dashboard' }}    
+                                @endif" class="text-decoration-none"><i class="fas fa-home"> Dashboard</i>
                             </a>
                         </li>
                         <li class="breadcrumb-item active">
                             <a class="text-text-decoration-none">
-                                <i class="fas fa-user-graduate"> Tabel Siswa</i> </a>
+                                @if ($title === 'Master data | Siswa')
+                                    <i class="fas fa-user-graduate">&nbsp;&nbsp;{{ $title }} </i>
+                                @endif
+                                
+                            </a>
                         </li>
                     </ol>
                 </div><!-- /.col -->

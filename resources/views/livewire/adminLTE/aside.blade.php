@@ -41,29 +41,34 @@
                         </a>
                     </li>
 
-                    <li class="nav-item has-treeview mt-2 {{ request()->is('hubin/siswa') ? 'menu-open' : '' }}"> {{-- <i class="right fas fa-angle-left"></i> --}}
-                        <a href="#" class="nav-link {{ request()->is('hubin/siswa') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Data Master
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('hubin.index.siswa') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Siswa</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Perusahaan</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
+                    {{--  ROLE HUBIN  --}}
+                    @if ($role === 2)
+                        <li class="nav-item has-treeview mt-2 {{ request()->is('hubin/siswa') ? 'menu-open' : '' }}"> {{-- <i class="right fas fa-angle-left"></i> --}}
+                            <a href="#" class="nav-link {{ request()->is('hubin/siswa') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Data Master
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('hubin.index.siswa') }}" class="nav-link {{ request()->is('hubin/siswa') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Siswa</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Perusahaan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{--  ROLE HUBIN  --}}
+                    @endif
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">

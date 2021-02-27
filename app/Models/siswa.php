@@ -6,30 +6,35 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-
-class siswa extends Model
+class Siswa extends Model
 {
   use HasFactory;
 
-  /**
-   * The table associated with the model.
-   *
-   * @var string
-   */
-  protected $table = 'siswa';                                     
+  protected $table = 'siswa';     
+
+  protected $primaryKey = 'id';
+
   protected $guarded = [];
 
-
-  public function __construct()
-  {
-    $this->builder = DB::table($this->table);
-  } 
+  protected $fillable = [
+    'id',
+    'user_id',
+    'jurusan_id',
+    'nis',       
+    'nama_siswa',
+    'kelas',     
+    'alamat',    
+    'kontak_siswa',
+    'angkatan',
+    'jk_siswa'
+  ];
+   
 
   public function getData() 
   {
-    return $this->builder->leftJoin('jurusan', 'jurusan.id', '=', 'siswa.id')->get();
+    return DB::table('siswa')->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
+    ->select('siswa.*', 'jurusan.nama_jurusan')
+    ->get();
   }
-
-
 
 }
