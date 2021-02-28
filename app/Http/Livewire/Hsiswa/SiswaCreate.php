@@ -21,11 +21,11 @@ class SiswaCreate extends Component
   public $jk_siswa;
 
   protected $rules = [
-    'nis' => 'required',
-    'jurusan_id' => 'required',
-    'nama_siswa' => 'required',
-    'kelas' => 'required',
-    'alamat' => 'required',
+    'nis'         => 'required',
+    'jurusan_id'  => 'required',
+    'nama_siswa'  => 'required',
+    'kelas'       => 'required',
+    'alamat'      => 'required',
     'kontak_siswa' => 'required',
     'angkatan' => 'required',
     'jk_siswa' => 'required',
@@ -33,10 +33,10 @@ class SiswaCreate extends Component
 
   protected $messages = [
     'jurusan_id.required' => 'Jurusan tidak boleh kosong !!!',
-    'nis.required' => 'NIS tidak boleh kosong !!!',
+    'nis.required'        => 'NIS tidak boleh kosong !!!',
     'nama_siswa.required' => 'Nama tidak boleh kosong !!!',
-    'kelas.required' => 'Kelas tidak boleh kosong !!!',
-    'alamat.required' => 'Alamat tidak boleh kosong !!!',
+    'kelas.required'      => 'Kelas tidak boleh kosong !!!',
+    'alamat.required'     => 'Alamat tidak boleh kosong !!!',
     'kontak_siswa.required' => 'kontak tidak boleh kosong !!!',
     'angkatan.required' => 'Angkatan tidak boleh kosong !!!',
     'jk_siswa.required' => 'Jeis kelamin tidak boleh kosong !!!',
@@ -48,7 +48,7 @@ class SiswaCreate extends Component
   }
 
   // metod ini otomatis di jalankan
-  public function mount() 
+  public function mount()
   {
     //panggil metod 
     $this->initializedProperties();
@@ -61,7 +61,8 @@ class SiswaCreate extends Component
     ]);
   }
 
-  public function store() {
+  public function store()
+  {
     $this->validate();
 
     try {
@@ -85,27 +86,18 @@ class SiswaCreate extends Component
       DB::rollback();
       dd('Ops..', $th->getMessage());
     }
-
     DB::commit();
-    
-
-    
-
-    
-    
-
   }
 
-  public function initializedProperties() 
+  public function initializedProperties()
   {
     $this->jurusan = null;
-    $this->nis = null;
+    $this->nis     = null;
     $this->nama_siswa = null;
-    $this->kelas = null;
+    $this->kelas  = null;
     $this->alamat = null;
     $this->kontak_siswa = null;
     $this->angkatan = null;
     $this->jk_siswa = null;
   }
-
 }
