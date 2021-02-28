@@ -63,7 +63,7 @@ class SiswaCreate extends Component
 
   public function store() {
     // $this->validate();
-$this->emit('closeModal', 'modal_create_siswa');
+
     try {
       // Siswa::create([
       //   'nis'         => $this->nis,
@@ -76,8 +76,8 @@ $this->emit('closeModal', 'modal_create_siswa');
       //   'jk_siswa' => $this->jk_siswa,
       // ]);
 
-      $this->emit('closeModal', 'modal_create_siswa');
-      $this->emitSelf('postAdded', 'klklk');
+      // $this->emit('closeModal', 'modal_create_siswa');
+      $this->dispatchBrowserEvent('closeModal');
       $this->initializedProperties();
     } catch (\Throwable $th) {
       DB::rollback();
