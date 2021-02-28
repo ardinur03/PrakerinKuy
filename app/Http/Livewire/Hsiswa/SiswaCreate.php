@@ -62,22 +62,24 @@ class SiswaCreate extends Component
   }
 
   public function store() {
-    // $this->validate();
+    $this->validate();
 
     try {
-      // Siswa::create([
-      //   'nis'         => $this->nis,
-      //   'jurusan_id'  => $this->jurusan_id,
-      //   'nama_siswa'  => $this->nama_siswa,
-      //   'kelas'       => $this->kelas,
-      //   'alamat'      => $this->alamat,
-      //   'kontak_siswa' => $this->kontak_siswa,
-      //   'angkatan' => $this->angkatan,
-      //   'jk_siswa' => $this->jk_siswa,
-      // ]);
+      Siswa::create([
+        'nis'         => $this->nis,
+        'jurusan_id'  => $this->jurusan_id,
+        'nama_siswa'  => $this->nama_siswa,
+        'kelas'       => $this->kelas,
+        'alamat'      => $this->alamat,
+        'kontak_siswa' => $this->kontak_siswa,
+        'angkatan' => $this->angkatan,
+        'jk_siswa' => $this->jk_siswa,
+      ]);
 
-      // $this->emit('closeModal', 'modal_create_siswa');
+      //untuk menutup POP-UP atau MODAL saat insert
       $this->dispatchBrowserEvent('closeModal');
+
+      //untuk menkosongkan form saat isert selesai
       $this->initializedProperties();
     } catch (\Throwable $th) {
       DB::rollback();
