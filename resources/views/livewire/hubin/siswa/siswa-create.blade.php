@@ -179,8 +179,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <a href="" class="btn btn-secondary btn-sm text-white" data-dismiss="modal"><i
-                                class="fas fa-chevron-circle-left"></i> Kembali</a>
+                        <button wire:click="cancel" class="btn btn-secondary btn-sm text-white" data-dismiss="modal"><i
+                                class="fas fa-chevron-circle-left"></i> Kembali</button>
                         <button type="reset" class="btn btn-info btn-sm"><i class="fas fa-trash-restore"></i>
                             Reset Data Input
                         </button>
