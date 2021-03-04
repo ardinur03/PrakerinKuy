@@ -24,6 +24,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{--  CSS CUSTOM  --}}
     <link rel="stylesheet" href="{{ asset('template-dashboard-admin-lte')}}/css/custom.css">
 
+    {{--  @stack('toast-notification-css')  --}}
+
     @livewireStyles
 
 </head>
@@ -94,29 +96,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @livewireScripts
 
     <script>
-        // document.addEventListener('DOMContentLoadedd', () => {
-        //     Livewire.on('showModal', (id) => {
-        //         id = "#" + id;
-        //         $(id).modal('.show');
-        //     });
-
-        //     Livewire.on('closeModal', (id) => {
-        //         id = "#" + id;
-        //         $(id).modal('.hidden');
-        //     });
-
-        //     Livewire.on('postAdded', postId => {
-        //         alert('A post was added with the id of: ' + postId);
-        //     })
-
-        // });
-
         window.addEventListener('closeModal', event => {
-          $("#modal_create_siswa").modal('hide');
+            $("#modal_create_siswa").modal('hide');
         })
 
     </script>
 
+    @stack('sweet-alert-js')
+
+    {{--  @stack('toast-notification-js')  --}}
 </body>
 
 </html>
