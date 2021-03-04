@@ -21,7 +21,7 @@ class SiswaCreate extends Component
   public $jk_siswa;
 
   protected $rules = [
-    'nis'         => 'required',
+    'nis'         => 'required|unique:siswa',
     'jurusan_id'  => 'required',
     'nama_siswa'  => 'required',
     'kelas'       => 'required',
@@ -34,6 +34,7 @@ class SiswaCreate extends Component
   protected $messages = [
     'jurusan_id.required' => 'Jurusan tidak boleh kosong !!!',
     'nis.required'        => 'NIS tidak boleh kosong !!!',
+    'nis.unique'          => 'NIS sudah terdaftar !!!',
     'nama_siswa.required' => 'Nama tidak boleh kosong !!!',
     'kelas.required'      => 'Kelas tidak boleh kosong !!!',
     'alamat.required'     => 'Alamat tidak boleh kosong !!!',
@@ -61,12 +62,17 @@ class SiswaCreate extends Component
     ]);
   }
 
+
+  //proses simpan
   public function store()
   {
+    // panggil validasi
     $this->validate();
 
     try {
-      Siswa::create([
+
+      //proses simpan ke database
+      $siswa = Siswa::create([
         'nis'         => $this->nis,
         'jurusan_id'  => $this->jurusan_id,
         'nama_siswa'  => $this->nama_siswa,
@@ -79,6 +85,9 @@ class SiswaCreate extends Component
 
       //untuk menutup POP-UP atau MODAL saat insert
       $this->dispatchBrowserEvent('closeModal');
+
+      // untuk refresh
+      $this->emit('siswaStore', $siswa);
 
       //untuk menkosongkan form saat isert selesai
       $this->initializedProperties();
@@ -99,5 +108,28 @@ class SiswaCreate extends Component
     $this->kontak_siswa = null;
     $this->angkatan = null;
     $this->jk_siswa = null;
+  }
+
+  public function showConfirmation()
+  {
+    $this->emit("swal:confirm", [
+      'type'        => 'warning',
+      'title'       => 'Are you sure?',
+      'text'        => "You won't be able to revert this!",
+      'confirmText' => `Yes, delete!`,
+      'method'      => 'appointments:delete',
+      'params'      => [], // optional, send params to success confirmation
+      'callback'    => '', // optional, fire event if no confirmed
+    ]);
+  }
+
+  public function suksesAlert()
+  {
+    $this->emit('swal:modal', [
+      'type'  => 'success',
+      'icon'  => 'success',
+      'title' => 'Success!!',
+      'text'  => "Siswa berhasil di tambahkan",
+    ]);
   }
 }
