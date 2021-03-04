@@ -1,1 +1,10 @@
-## APLIKASI UJIKOM 
+# PROJECT UJIKOM
+## TOOLS
+- LARAVEL 8
+- LIVEWIRE 2
+- SWEET-ALERT 2
+- BOOTSTRAP 4.6
+- ADMIN LTE V3.0.1
+- FONT AWESOME
+
+COPYRIGHT | [ardinur_03](https://www.ardinur.space "ardinur_03")
