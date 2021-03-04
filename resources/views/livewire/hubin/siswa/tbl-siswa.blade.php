@@ -18,11 +18,6 @@
                     </div>
                     <!-- /.card-header -->
 
-                    <!-- sweetalert start -->
-                    <div class="swal" data-swal=""></div>
-                    <div class="ggl" data-ggl=""></div>
-                    <!-- sweetalert end -->
-
                     <div class="card-body">
                         <div class="container">
                             <table class="table table-responsive-md table-sm table-hover">
@@ -79,5 +74,20 @@
 
         <livewire:hsiswa.siswa-create :jurusan="$jurusan"></livewire:hsiswa.siswa-create>
     </div>
+
+
+    @push('sweet-alert-js')
+        <script src="{{ asset('vendor/sweetalert/sweetalert2.all.min.js') }}"></script>
+        <script src="{{ asset('vendor/sweetalert/script.alert.js') }}"></script>
+    @endpush
+
+
+    @push('toast-notification-js')
+        <script src="{{ asset('vendor\toast\js\toastr.min.js') }}"></script>
+    @endpush
+
+    @push('toast-notification-css')
+        <link rel="stylesheet" href="{{ asset('vendor\toast\css\toastr.min.css') }}">
+    @endpush
 
 </div>
