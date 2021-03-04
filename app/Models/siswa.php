@@ -10,7 +10,7 @@ class Siswa extends Model
 {
   use HasFactory;
 
-  protected $table = 'siswa';     
+  protected $table = 'siswa';
 
   protected $primaryKey = 'id';
 
@@ -20,21 +20,19 @@ class Siswa extends Model
     'id',
     'user_id',
     'jurusan_id',
-    'nis',       
+    'nis',
     'nama_siswa',
-    'kelas',     
-    'alamat',    
+    'kelas',
+    'alamat',
     'kontak_siswa',
     'angkatan',
     'jk_siswa'
   ];
-   
 
-  public function getData() 
+  public function getData()
   {
     return DB::table('siswa')->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
-    ->select('siswa.*', 'jurusan.nama_jurusan')
-    ->get();
+      ->select('siswa.*', 'jurusan.nama_jurusan')->latest()
+      ->get();
   }
-
 }
