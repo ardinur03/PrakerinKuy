@@ -1,15 +1,35 @@
-livewire.on('alert-success', (param) =>{
+livewire.on("alert-success", (param) => {
     Swal.fire({
-        position:  'top-end',
-        icon: param['icon'],
-        title: param['title'],
-        html: param['text'],
+        position: param["position"],
+        icon: param["icon"],
+        title: param["title"],
+        html: param["text"],
         timerProgressBar: true,
-        showConfirmButton: false,
-        timer: 1500
+        showConfirmButton: param["showConfirmButton"],
+        timer: param["timer"],
     });
 });
 
+livewire.on("alert-confirm", (param) => {
+    Swal.fire({
+        icon: param['type'],
+        title:param['title'],
+        html: param['text'],
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText,
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.value) {
+            return livewire.emit(method, params);
+        }
+
+        if (callback) {
+            return livewire.emit(callback);
+        }
+    });
+});
 
 const SwalConfirm = (
     icon,
