@@ -9,10 +9,16 @@ use App\Models\Jurusan;
 
 class TblSiswa extends Component
 {
-    public function __construct() {
-      $this->SiswaModel = new Siswa();
-      $this->JurusanModel = new Jurusan();
+    public function __construct()
+    {
+        $this->SiswaModel = new Siswa();
+        $this->JurusanModel = new Jurusan();
     }
+
+    protected $listeners = [
+        'reloadTblSiswa' => '$refresh',
+        'siswaStore'     => 'handleSiswaCreate'
+    ];
 
     public function render()
     {
@@ -23,8 +29,19 @@ class TblSiswa extends Component
         );
 
         return view('livewire.hubin.siswa.tbl-siswa', $data)
-                ->extends('layouts.After_Login.app_backend', $data)
-                ->section('content', $data);
+            ->extends('layouts.After_Login.app_backend', $data)
+            ->section('content', $data);
     }
 
+    public function handleSiswaCreate($siswa)
+    {
+
+        //panggil sweetalert sukses
+        $this->emit('alert-success', [
+            'type'  => 'success',
+            'icon'  => 'success',
+            'title' => 'Success!!',
+            'text'  => 'Siswa ' . '<b>' . $siswa['nama_siswa'] . '</b>' . ' berhasil di tambahkan',
+        ]);
+    }
 }
