@@ -18,7 +18,7 @@
 
     <div class="row mt-3">
         <div class="col">
-            <select wire:model="paginate" id="" class="form-control form-control-sm w-auto">
+            <select wire:model="paginate" class="form-control form-control-sm w-auto">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
