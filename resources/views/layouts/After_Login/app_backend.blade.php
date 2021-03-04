@@ -75,10 +75,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                Semangat menjadi penyemangat !!!
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            <strong>Copyright &copy; <a href="http://smkn11bdg.sch.id" target="_blank">SMK Negeri 11 Kota Bandung</a>.</strong> All rights
             reserved.
         </footer>
     </div>
@@ -95,12 +95,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     @livewireScripts
 
-    <script>
-        window.addEventListener('closeModal', event => {
-            $("#modal_create_siswa").modal('hide');
-        })
-
-    </script>
+    @stack('modal-crud')
 
     @stack('sweet-alert-js')
 
