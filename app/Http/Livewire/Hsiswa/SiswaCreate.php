@@ -21,7 +21,7 @@ class SiswaCreate extends Component
   public $jk_siswa;
 
   protected $rules = [
-    'nis'         => 'required|unique:siswa',
+    'nis'         => 'required|unique:siswa|min:10|max:11',
     'jurusan_id'  => 'required',
     'nama_siswa'  => 'required',
     'kelas'       => 'required',
@@ -35,6 +35,8 @@ class SiswaCreate extends Component
     'jurusan_id.required' => 'Jurusan tidak boleh kosong !!!',
     'nis.required'        => 'NIS tidak boleh kosong !!!',
     'nis.unique'          => 'NIS sudah terdaftar !!!',
+    'nis.min'          => 'NIS minimal 10 angka !!!',
+    'nis.max'          => 'NIS maximal 11 angka !!!',
     'nama_siswa.required' => 'Nama tidak boleh kosong !!!',
     'kelas.required'      => 'Kelas tidak boleh kosong !!!',
     'alamat.required'     => 'Alamat tidak boleh kosong !!!',
@@ -46,6 +48,16 @@ class SiswaCreate extends Component
   public function __construct()
   {
     $this->JurusanModel = new Jurusan();
+  }
+
+  // validasi real time
+  public function updated($property, $value)
+  {
+    if (trim($value)) {
+      $this->validateOnly($property);
+    } else {
+      $this->resetErrorBag($property);
+    }
   }
 
   // metod ini otomatis di jalankan
@@ -62,15 +74,12 @@ class SiswaCreate extends Component
     ]);
   }
 
-
   //proses simpan
   public function store()
   {
     // panggil validasi
     $this->validate();
-
     try {
-
       //proses simpan ke database
       $siswa = Siswa::create([
         'nis'         => $this->nis,
@@ -87,19 +96,28 @@ class SiswaCreate extends Component
       $this->dispatchBrowserEvent('closeModal');
 
       // untuk refresh
-      $this->emit('siswaStore', $siswa);
+      $this->emit('reloadTblSiswa');
+
+      $this->emit('siswaStoreSuccess', $siswa);
 
       //untuk menkosongkan form saat isert selesai
       $this->initializedProperties();
     } catch (\Throwable $th) {
       DB::rollback();
-      dd('Ops..', $th->getMessage());
+      // dd('Ops..', $th->getMessage());
+      $this->emit('siswaStoreFail', $th->getMessage());
     }
     DB::commit();
   }
 
+  public function cancel()
+  {
+    $this->initializedProperties();
+  }
+
   public function initializedProperties()
   {
+    $this->resetErrorBag();
     $this->jurusan = null;
     $this->nis     = null;
     $this->nama_siswa = null;
@@ -120,16 +138,6 @@ class SiswaCreate extends Component
       'method'      => 'appointments:delete',
       'params'      => [], // optional, send params to success confirmation
       'callback'    => '', // optional, fire event if no confirmed
-    ]);
-  }
-
-  public function suksesAlert()
-  {
-    $this->emit('swal:modal', [
-      'type'  => 'success',
-      'icon'  => 'success',
-      'title' => 'Success!!',
-      'text'  => "Siswa berhasil di tambahkan",
     ]);
   }
 }
