@@ -2,28 +2,37 @@
 
 namespace App\Http\Livewire\Hsiswa;
 
-use Livewire\Component;
-
-use App\Models\Siswa;
-use App\Models\Jurusan;
+use App\Models\{Siswa, Jurusan};
+use Livewire\{Component, WithPagination};
 
 class TblSiswa extends Component
 {
+
+    use WithPagination;
+    public $paginate = 10;
+    public $search;
+    protected $paginationTheme = 'bootstrap';
+    // protected $queryString = ['search']; => untuk link aktif
+
+    protected $listeners = [
+        'reloadTblSiswa' => '$refresh',
+        'siswaStoreSuccess'    => 'handleSiswaCreateSuccess',
+        'siswaUpdateSuccess'   => 'handleSiswaUpdateSuccess',
+        'siswaStoreFail'     => 'handleSiswaCreateFail'
+    ];
+
     public function __construct()
     {
         $this->SiswaModel = new Siswa();
         $this->JurusanModel = new Jurusan();
     }
-
-    protected $listeners = [
-        'reloadTblSiswa' => '$refresh',
-        'siswaStore'     => 'handleSiswaCreate'
-    ];
-
     public function render()
     {
         $data = array(
-            'siswa' => $this->SiswaModel->getData(),
+            // 'siswa' => $this->SiswaModel->getData(),
+            'siswa' => $this->search === null ?  Siswa::latest()->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
+                ->select('siswa.*', 'jurusan.nama_jurusan')->paginate($this->paginate) : Siswa::latest()->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
+                ->select('siswa.*', 'jurusan.nama_jurusan')->where('nama_siswa', 'like', '%' . $this->search . '%')->paginate($this->paginate),
             'title' => 'Master data | Siswa',
             'jurusan' => $this->JurusanModel->getDataJurusan()
         );
@@ -33,15 +42,60 @@ class TblSiswa extends Component
             ->section('content', $data);
     }
 
-    public function handleSiswaCreate($siswa)
+    public function getDelete($id)
     {
+        //hapus
+        $this->destroy($id);
+    }
 
+    public function destroy($id)
+    {
+        if ($id) {
+            $data = Siswa::find($id);
+            $data->delete();
+            // $this->emit('siswaStoreSuccess', $siswa);
+        };
+    }
+
+    public function handleSiswaCreateSuccess($siswa)
+    {
         //panggil sweetalert sukses
         $this->emit('alert-success', [
+            'position' => 'top-end',
             'type'  => 'success',
             'icon'  => 'success',
-            'title' => 'Success!!',
-            'text'  => 'Siswa ' . '<b>' . $siswa['nama_siswa'] . '</b>' . ' berhasil di tambahkan',
+            'title' => 'Success !!!',
+            'timer' => 1500,
+            'showConfirmButton' => false,
+            'text'  => 'Siswa ' . '<b>' . $siswa['nama_siswa'] . '</b>' . ' berhasil di Tambahkan !!!',
+        ]);
+    }
+
+    public function handleSiswaUpdateSuccess($siswa)
+    {
+        //panggil sweetalert sukses
+        $this->emit('alert-success', [
+            'position' => 'top-end',
+            'type'  => 'info',
+            'icon'  => 'info',
+            'title' => 'info !!!',
+            'timer' => 1500,
+            'showConfirmButton' => false,
+            'text'  => 'Siswa ' . '<b>' . $siswa['nama_siswa'] . '</b>' . ' berhasil di Update !!!',
+        ]);
+    }
+
+    public function handleSiswaCreateFail($data)
+    {
+        //panggil sweetalert sukses
+        $this->emit('alert-success', [
+            'position' => 'center',
+            'type'  => 'error',
+            'icon'  => 'error',
+            'title' => 'error !!!',
+            'timer' =>  false,
+            'showConfirmButton' => true,
+            'text'  => '<b>' . $data . '</b>',
         ]);
     }
 }
