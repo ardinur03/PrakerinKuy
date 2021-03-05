@@ -14,7 +14,6 @@ class SiswaUpdate extends Component
 
     public $jurusan_id;
 
-    public $id;
     public $nis;
     public $nama_siswa;
     public $kelas;
@@ -36,6 +35,7 @@ class SiswaUpdate extends Component
         'nama_siswa.required' => 'Nama tidak boleh kosong !!!',
         'kelas.required'      => 'Kelas tidak boleh kosong !!!',
         'alamat.required'     => 'Alamat tidak boleh kosong !!!',
+        'alamat.max'     => 'Alamat tidak boleh lebih dari 255 character !!!',
         'kontak_siswa.required' => 'kontak tidak boleh kosong !!!',
         'angkatan.required' => 'Angkatan tidak boleh kosong !!!',
         'jk_siswa.required' => 'Jeis kelamin tidak boleh kosong !!!',
@@ -72,7 +72,6 @@ class SiswaUpdate extends Component
 
     public function showModal(Siswa $siswa)
     {
-        $this->id = $siswa->id;
         $this->jurusan_id = $siswa->jurusan_id;
         $this->nis     = $siswa->nis;
         $this->nama_siswa = $siswa->nama_siswa;
@@ -89,7 +88,8 @@ class SiswaUpdate extends Component
     {
         $this->validate();
         try {
-            $siswa = Siswa::find($this->id);
+
+            $siswa = Siswa::find($this->nis);
             $siswa->update([
                 'nis'         => $this->nis,
                 'jurusan_id'  => $this->jurusan_id,
@@ -102,7 +102,7 @@ class SiswaUpdate extends Component
             ]);
 
             //untuk menutup POP-UP atau MODAL saat insert
-            $this->dispatchBrowserEvent('closeModal');
+            $this->dispatchBrowserEvent('closeModalUpdate');
 
             // untuk refresh
             $this->emit('reloadTblSiswa');
@@ -120,6 +120,20 @@ class SiswaUpdate extends Component
         DB::commit();
     }
 
+    protected function rules()
+    {
+        return [
+            // 'nis'         => 'required|min:10|max:11|unique:siswa,nis,' . $this->nis,
+            'jurusan_id'  => 'required',
+            'nama_siswa'  => 'required',
+            'kelas'       => 'required',
+            'alamat'      => 'required|max:255',
+            'kontak_siswa' => 'required',
+            'angkatan' => 'required',
+            'jk_siswa' => 'required',
+        ];
+    }
+
     public function cancel()
     {
         $this->initializedProperties();
@@ -135,19 +149,5 @@ class SiswaUpdate extends Component
         $this->kontak_siswa = null;
         $this->angkatan = null;
         $this->jk_siswa = null;
-    }
-
-    protected function rules()
-    {
-        return [
-            'nis'         => 'required|min:10|max:11|unique:siswa,nis,' . $this->id,
-            'jurusan_id'  => 'required',
-            'nama_siswa'  => 'required',
-            'kelas'       => 'required',
-            'alamat'      => 'required',
-            'kontak_siswa' => 'required',
-            'angkatan' => 'required',
-            'jk_siswa' => 'required',
-        ];
     }
 }
