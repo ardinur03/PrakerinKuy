@@ -24,6 +24,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{--  CSS CUSTOM  --}}
     <link rel="stylesheet" href="{{ asset('template-dashboard-admin-lte')}}/css/custom.css">
 
+    @stack('css-animate')
+
     {{--  @stack('toast-notification-css')  --}}
 
     @livewireStyles
