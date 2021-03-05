@@ -7,7 +7,7 @@
             <div class="modal-content">
                 <form wire:submit.prevent="update">
                     {{ csrf_field() }}
-                    <input type="hidden" wire:model="id">
+                    <input type="hidden" name="nis" wire:model="nis">
                     <div class="modal-header bg-info">
                         <h5 class="modal-title" id="staticBackdropLabel">Update Data Siswa</h5>
                         <button type="button" class="close text-white border-0" data-dismiss="modal" aria-label="Close">
@@ -22,7 +22,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nis">NIS</label>
-                                        <input type="number" wire:model="nis" id="nis" min="1"
+                                        <input readonly type="number" wire:model="nis" id="nis" min="1"
                                             class="form-control @error('nis') is-invalid @enderror" name="NIS"
                                             placeholder="Masukkan NIS">
 
@@ -171,7 +171,7 @@
                                         <div class="input-group">
                                             <textarea wire:model="alamat" id="alamat"
                                                 class="form-control @error('alamat') is-invalid @enderror"
-                                                rows="2"></textarea>
+                                                rows="4"></textarea>
                                             @error('alamat')
                                             <span class="invalid-feedback @error('alamat') is-invalid @enderror">
                                                 <strong>* {{ $message }}</strong>
