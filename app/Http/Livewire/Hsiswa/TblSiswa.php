@@ -32,9 +32,9 @@ class TblSiswa extends Component
             // 'siswa' => $this->SiswaModel->getData(),
             'siswa' => $this->search === null ?  Siswa::latest()->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
                 ->select('siswa.*', 'jurusan.nama_jurusan')->paginate($this->paginate) : Siswa::latest()->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
-                ->select('siswa.*', 'jurusan.nama_jurusan')->where('nama_siswa', 'like', '%' . $this->search . '%')->paginate($this->paginate),
+                ->select('siswa.*', 'jurusan.nama_jurusan')->where('nama_siswa', 'like', '%' . $this->search . '%')->orWhere('nis', 'like', '%' . $this->search . '%')->paginate($this->paginate),
             'title' => 'Master data | Siswa',
-            'jurusan' => $this->JurusanModel->getDataJurusan()
+            'jurusan' => $this->JurusanModel->getDataJurusan(),
         );
 
         return view('livewire.hubin.siswa.tbl-siswa', $data)
@@ -42,16 +42,16 @@ class TblSiswa extends Component
             ->section('content', $data);
     }
 
-    public function getDelete($id)
+    public function getDelete($nis)
     {
         //hapus
-        $this->destroy($id);
+        $this->destroy($nis);
     }
 
-    public function destroy($id)
+    public function destroy($nis)
     {
-        if ($id) {
-            $data = Siswa::find($id);
+        if ($nis) {
+            $data = Siswa::find($nis);
             $data->delete();
             // $this->emit('siswaStoreSuccess', $siswa);
         };
