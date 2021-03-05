@@ -12,13 +12,12 @@ class Siswa extends Model
 
   protected $table = 'siswa';
 
-  protected $primaryKey = 'id';
+  protected $primaryKey  = 'nis';
+  public $incrementing = false;
 
   protected $guarded = [];
 
   protected $fillable = [
-    'id',
-    'user_id',
     'jurusan_id',
     'nis',
     'nama_siswa',
