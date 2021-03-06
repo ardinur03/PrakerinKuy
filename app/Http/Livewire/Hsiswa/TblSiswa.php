@@ -18,7 +18,8 @@ class TblSiswa extends Component
         'reloadTblSiswa' => '$refresh',
         'siswaStoreSuccess'    => 'handleSiswaCreateSuccess',
         'siswaUpdateSuccess'   => 'handleSiswaUpdateSuccess',
-        'siswaStoreFail'     => 'handleSiswaCreateFail'
+        'siswaStoreFail'     => 'handleSiswaCreateFail',
+        'DeleteSiswa'     => 'destroy'
     ];
 
     public function __construct()
@@ -36,7 +37,7 @@ class TblSiswa extends Component
             'title' => 'Master data | Siswa',
             'jurusan' => $this->JurusanModel->getDataJurusan(),
         );
-
+        $this->emit('destroy');
         return view('livewire.hubin.siswa.tbl-siswa', $data)
             ->extends('layouts.After_Login.app_backend', $data)
             ->section('content', $data);
@@ -50,11 +51,7 @@ class TblSiswa extends Component
 
     public function destroy($nis)
     {
-        if ($nis) {
-            $data = Siswa::find($nis);
-            $data->delete();
-            // $this->emit('siswaStoreSuccess', $siswa);
-        };
+        Siswa::find($nis)->delete();
     }
 
     public function handleSiswaCreateSuccess($siswa)
