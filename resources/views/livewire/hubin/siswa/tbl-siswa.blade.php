@@ -8,11 +8,14 @@
                         <h3 class="card-title">{{ $title }}</h3>
 
                         <div class="card-tools">
-                            <button data-toggle="modal" data-target="#modal_create_siswa"
-                                class="btn btn-success btn-sm"><i class="fas fa-user-graduate"></i> <i
-                                    class="fas fa-plus"></i> </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                    class="fas fa-minus"></i></button>
+                            <button class="btn btn-outline-secondary button-outline btn-sm">
+                                <img src="{{ asset('image/excel.svg') }}" width="30px" height="20px" alt=""><span class="text-black"> Export data siswa</span>
+                            </button>
+                            <button data-toggle="modal" data-target="#importSiswa" class="btn btn-outline-success btn-light btn-sm">
+                                <img src="{{ asset('image/excel.svg') }}" width="30px" height="20px" alt=""><span class="text-black"> Import data siswa</span>
+                            </button>
+                            <button data-toggle="modal" data-target="#modal_create_siswa" class="btn btn-success btn-sm"><i class="fas fa-user-graduate"></i> <i class="fas fa-plus"></i> </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         </div>
                         <!-- /.card-tools -->
                     </div>
@@ -55,7 +58,7 @@
                                         {{--  <th>kontak</th>  --}}
                                         {{--  <th>Alamat</th>  --}}
                                         <th>Angkatan</th>
-                                        <th>Crearte at</th>
+                                        <th>Dibuat</th>
                                         <th scope="colgroup">Aksi</th>
                                     </tr>
                                 </thead>
@@ -142,8 +145,12 @@
         {{--  COMPONENT DETAIL UNTUK MODAL/POPUP SISWA  --}}
         <livewire:hsiswa.siswa-detail :jurusan="$jurusan"></livewire:hsiswa.siswa-detail>
         
-        {{--  COMPONENT DETAIL UNTUK MODAL/POPUP SISWA  --}}
+        {{--  COMPONENT CREATE ACCOUNT UNTUK MODAL/POPUP SISWA  --}}
         <livewire:hsiswa.siswa-create-account :jurusan="$jurusan"></livewire:hsiswa.siswa-create-account>
+        
+        {{--  COMPONENT IMPORT UNTUK MODAL/POPUP SISWA  --}}
+        <livewire:hsiswa.siswa-import :jurusan="$jurusan"></livewire:hsiswa.siswa-import>
+
 
     </div>
 
@@ -167,14 +174,21 @@
     {{--  push script js unruk event click modal/popup  --}}
     @push('modal-crud')
         <script>
-            //event untuk close modal
+            //event untuk close modal create
             window.addEventListener('closeModal', event => {
                 $("#modal_create_siswa").modal('hide');
             })
-            //event untuk close modal
+
+            //event untuk close modal update
             window.addEventListener('closeModalUpdate', event => {
                 $("#modal_update_siswa").modal('hide');
             })
+
+            //event untuk close modal import
+            window.addEventListener('closeModalImport', event => {
+                $("#importSiswa").modal('hide');
+            })
+
             //event untuk open modal
             window.addEventListener('openModal', event => {
                 $("#modal_update_siswa").modal('show');
