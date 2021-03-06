@@ -4,8 +4,8 @@
     <div wire:ignore.self class="modal fade" id="modal_detail_siswa" tabindex="-1" aria-labelledby="detailModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailModal">Detail Siswa</h5>
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-white" id="detailModal">Detail Siswa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -57,7 +57,6 @@
                         </div>
 
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Tutup</button>
