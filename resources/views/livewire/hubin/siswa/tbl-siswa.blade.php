@@ -29,6 +29,12 @@
                                         <option value="20">20</option>
                                     </select>
                                     @endif
+
+                                    @if ($selected != null && $tombolListHapus == true)
+                                        banyak siswa yang sudah di ceklis : {{ count($selected) }}
+                                        <button wire:click="deleteListSiswa" type="button" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus siswa yang di ceklis</button>
+                                    @endif
+
                                 </div>
                                 <div class="col-md-4">
                                     <input type="text" wire:model="search" class="form-control mb-3 form-control-sm" placeholder="Cari berdasarkan Nama atau NIS siswa ...">
@@ -39,6 +45,7 @@
                             <table class="table table-responsive-md table-sm table-hover">
                                 <thead class="bg-primary judul">
                                     <tr class="text-center">
+                                        <th></th>
                                         <th scope="col">No</th>
                                         <th>NIS</th>
                                         <th>Nama Siswa</th>
@@ -48,6 +55,7 @@
                                         {{--  <th>kontak</th>  --}}
                                         {{--  <th>Alamat</th>  --}}
                                         <th>Angkatan</th>
+                                        <th>Crearte at</th>
                                         <th scope="colgroup">Aksi</th>
                                     </tr>
                                 </thead>
@@ -56,6 +64,9 @@
                                     
                                         @foreach ($siswa as $s)
                                         <tr>
+                                            <td class="border px-2 py-2">
+                                                <input wire:model="selected" value="{{ $s->nis }}" type="checkbox">
+                                            </td>
                                             <th>{{ $no++ }}</th>
                                             <td>{{ $s->nis }}</td>
                                             <td>{{ $s->nama_siswa }}</td>
@@ -65,6 +76,7 @@
                                             {{--  <td>{{ $s->kontak_siswa }}</td>  --}}
                                             {{--  <td>{{ $s->alamat }}</td>  --}}
                                             <td>{{ $s->angkatan }}</td>
+                                            <td>{{ $s->created_at->diffForHumans() }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <button wire:click="$emitTo('hsiswa.siswa-create-account', 'createAccount', {{ $s->nis }})" 
@@ -150,39 +162,6 @@
     @push('sweet-alert-js')
         <script src="{{ asset('vendor/sweetalert/sweetalert2.all.min.js') }}"></script>
         <script src="{{ asset('vendor/sweetalert/script.alert.js') }}"></script>
-        <script type="text/javascript">
-        document.addEventListener('livewire:load', function () {
-            Livewire.on('deletesiswa', (nis) => {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Apakah anda yakin ?',
-                    text: 'Siswa ini akan Dihapus Permanent !!!',
-                    type: "warning",
-                    showCancelButton: true,
-                    cancelButtonColor: 'var(--warning)',
-                    confirmButtonColor: 'var(--danger)',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    //if user clicks on delete
-                    if (result.value) {
-                        // calling destroy method to delete
-                       Livewire.emit('DeleteSiswa', nis);
-                        Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                        )
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire(
-                        'Cancelled',
-                        'Data siswa tidak jadi di hapus :)',
-                        'error'
-                        )
-                    }
-                });
-            });
-        });
-        </script>
     @endpush
 
     {{--  push script js unruk event click modal/popup  --}}
