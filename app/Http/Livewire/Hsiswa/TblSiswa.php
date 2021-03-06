@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Hsiswa;
 
 use App\Models\{Siswa, Jurusan};
+use Illuminate\Support\Facades\Storage;
 use Livewire\{Component, WithPagination};
 
 class TblSiswa extends Component
