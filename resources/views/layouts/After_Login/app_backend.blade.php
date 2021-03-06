@@ -24,12 +24,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{--  CSS CUSTOM  --}}
     <link rel="stylesheet" href="{{ asset('template-dashboard-admin-lte')}}/css/custom.css">
 
-    @stack('css-animate')
+    @stack('css-modal')
 
     {{--  @stack('toast-notification-css')  --}}
-
     @livewireStyles
-
+    
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.1/dist/alpine.min.js" defer></script>
 </head>
 
 <body class="hold-transition sidebar-mini text-sm">
@@ -96,9 +96,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('template-dashboard-admin-lte') }}/dist/js/adminlte.min.js"></script>
 
     @livewireScripts
-
+    
     @stack('modal-crud')
-
+    
     @stack('sweet-alert-js')
 
     {{--  @stack('toast-notification-js')  --}}
