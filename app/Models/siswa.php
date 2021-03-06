@@ -10,6 +10,8 @@ class Siswa extends Model
 {
   use HasFactory;
 
+  protected $guraded = [];
+
   protected $table = 'siswa';
 
   protected $primaryKey  = 'nis';
@@ -33,5 +35,12 @@ class Siswa extends Model
     return DB::table('siswa')->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
       ->select('siswa.*', 'jurusan.nama_jurusan')->latest()
       ->get();
+  }
+
+  public static function search($search)
+  {
+    return empty($search) ? static::query()
+      : static::where('nama_siswa', 'like', '%' . $search . '%')
+      ->orWhere('nis', 'like', '%' . $search . '%');
   }
 }
