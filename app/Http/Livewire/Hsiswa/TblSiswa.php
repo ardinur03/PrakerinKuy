@@ -11,6 +11,10 @@ class TblSiswa extends Component
     use WithPagination;
     public $paginate = 10;
     public $search;
+
+    public $selected = [];
+    public $tombolListHapus = true;
+
     protected $paginationTheme = 'bootstrap';
     // protected $queryString = ['search']; => untuk link aktif
 
@@ -19,7 +23,8 @@ class TblSiswa extends Component
         'siswaStoreSuccess'    => 'handleSiswaCreateSuccess',
         'siswaUpdateSuccess'   => 'handleSiswaUpdateSuccess',
         'siswaStoreFail'     => 'handleSiswaCreateFail',
-        'DeleteSiswa'     => 'destroy'
+        'DeleteSiswa'     => 'destroy',
+        'destroyLIstSiswaJs'     => 'destroyLIstSiswa'
     ];
 
     public function __construct()
@@ -43,6 +48,37 @@ class TblSiswa extends Component
             ->section('content', $data);
     }
 
+    //initialisasi data key untuk confirm
+    public function deleteListSiswa()
+    {
+        $jumlahListSiswaSelected = count($this->selected);
+        //panggil sweetalert sukses
+        $this->emit('deletesiswaSelected', [
+            'nis'   => $this->selected,
+            'jmlhListSiswa' => $jumlahListSiswaSelected,
+            'icon'  => 'warning',
+            'title' => 'Apakah anda yakin ?',
+            'text'  => "{$jumlahListSiswaSelected} Siswa ini akan Dihapus Permanent !!!",
+            'type'  => 'warning',
+            'position' => 'center',
+            'timer' =>  false,
+            'showConfirmButton' => true,
+        ]);
+    }
+
+    //execute delete selected siswa
+    public function destroyLIstSiswa($nisList)
+    {
+        $this->selected = null;
+        $this->tombolListHapus = false;
+        // //hapus selected siswa
+        Siswa::destroy($nisList);;
+
+        $this->emit('reloadTblSiswa');
+        $this->tombolListHapus = true;
+        $this->emit('reloadTblSiswa');
+    }
+
     public function getDelete($nis)
     {
         //hapus
@@ -51,7 +87,14 @@ class TblSiswa extends Component
 
     public function destroy($nis)
     {
+        $this->selected = null;
+        $this->tombolListHapus = false;
+
         Siswa::find($nis)->delete();
+
+        $this->emit('reloadTblSiswa');
+        $this->tombolListHapus = true;
+        $this->emit('reloadTblSiswa');
     }
 
     public function handleSiswaCreateSuccess($siswa)
