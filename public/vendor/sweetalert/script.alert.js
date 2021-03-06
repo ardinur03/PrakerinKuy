@@ -1,9 +1,10 @@
 livewire.on("alert-success", (param) => {
     Swal.fire({
-        position: param["position"],
         icon: param["icon"],
         title: param["title"],
         html: param["text"],
+        type: param["type"],
+        position: param["position"],
         timerProgressBar: true,
         showConfirmButton: param["showConfirmButton"],
         timer: param["timer"],
