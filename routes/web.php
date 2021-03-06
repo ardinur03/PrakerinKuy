@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 
 // Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/hallo', function(){
+Route::get('/hallo', function () {
     return view('home');
 });
 
@@ -49,5 +49,6 @@ Route::middleware(['auth'])->group(function () {
 
     // CRUD SISWA
     Route::get('/hubin/siswa', TblSiswa::class)->name('hubin.index.siswa');
-    
+
+    Route::get('/template-excel-create-siswa', [HubinController::class, 'dwTemplateCreateSiswa'])->name('ex_create_siswa');
 });
