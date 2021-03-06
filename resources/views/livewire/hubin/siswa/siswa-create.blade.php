@@ -2,13 +2,13 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
 
     <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="modal_create_siswa" data-backdrop="static" data-keyboard="false"
+    <div wire:ignore.self class="modal fade" id="modal_create_siswa" data-keyboard="false"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form wire:submit.prevent="store">
                     {{ csrf_field() }}
-                    <div class="modal-header bg-info">
+                    <div class="modal-header bg-success">
                         <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Siswa</h5>
                         <button type="button" class="close text-white border-0" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
