@@ -23,9 +23,9 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'username' => ['required', 'string', 'max:255'],
             'email' => [
-                'required',
+                // 'required',
                 'string',
-                'email',
+                // 'email',
                 'max:255',
                 Rule::unique(User::class),
             ],
