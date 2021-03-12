@@ -98,6 +98,7 @@ class SiswaCreate extends Component
       // untuk refresh
       $this->emit('reloadTblSiswa');
 
+      //memanggil alert sukses
       $this->emit('siswaStoreSuccess', $siswa);
 
       //untuk menkosongkan form saat isert selesai
