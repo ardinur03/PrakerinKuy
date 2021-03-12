@@ -14,6 +14,7 @@ class TblSiswa extends Component
     public $search;
 
     public $selected = [];
+    public $selectedSiswa = false;
     public $tombolListHapus = true;
 
     protected $paginationTheme = 'bootstrap';
@@ -21,11 +22,11 @@ class TblSiswa extends Component
 
     protected $listeners = [
         'reloadTblSiswa' => '$refresh',
-        'siswaStoreSuccess'    => 'handleSiswaCreateSuccess',
-        'siswaUpdateSuccess'   => 'handleSiswaUpdateSuccess',
+        'siswaStoreSuccess'  => 'handleSiswaCreateSuccess',
+        'siswaUpdateSuccess' => 'handleSiswaUpdateSuccess',
         'siswaStoreFail'     => 'handleSiswaCreateFail',
-        'DeleteSiswa'     => 'destroy',
-        'destroyLIstSiswaJs'     => 'destroyLIstSiswa'
+        'DeleteSiswa'   => 'destroy',
+        'destroyLIstSiswaJs'  => 'destroyLIstSiswa'
     ];
 
     public function __construct()
@@ -43,20 +44,31 @@ class TblSiswa extends Component
             'title' => 'Master data | Siswa',
             'jurusan' => $this->JurusanModel->getDataJurusan(),
         );
-        $this->emit('destroy');
+        // $this->emit('destroy');
         return view('livewire.hubin.siswa.tbl-siswa', $data)
             ->extends('layouts.After_Login.app_backend', $data)
             ->section('content', $data);
     }
 
-    //initialisasi data key untuk confirm
+    protected function updatedselectedSiswa()
+    {
+        if ($this->selectedSiswa) {
+            $this->selected = Siswa::pluck('nis');
+        } else {
+            $this->selected = [];
+        };
+    }
+
+    //#1. initialisasi data key untuk confirm
     public function deleteListSiswa()
     {
         $jumlahListSiswaSelected = count($this->selected);
         //panggil sweetalert sukses
-        $this->emit('deletesiswaSelected', [
-            'nis'   => $this->selected,
-            'jmlhListSiswa' => $jumlahListSiswaSelected,
+        $this->emit('deleteConfirmSelected', [
+            'id'   => $this->selected,
+            'method'   => 'destroyLIstSiswaJs',
+            'name'   => 'Siswa',
+            'jmlhListSelected' => $jumlahListSiswaSelected,
             'icon'  => 'warning',
             'title' => 'Apakah anda yakin ?',
             'text'  => "{$jumlahListSiswaSelected} Siswa ini akan Dihapus Permanent !!!",
@@ -67,28 +79,24 @@ class TblSiswa extends Component
         ]);
     }
 
-    //execute delete selected siswa
+    //#2. execute delete selected siswa
     public function destroyLIstSiswa($nisList)
     {
-        $this->selected = null;
+        $this->selected = [];
+        $this->selectedSiswa = [];
         $this->tombolListHapus = false;
         // //hapus selected siswa
-        Siswa::destroy($nisList);;
+        Siswa::destroy($nisList);
 
         $this->emit('reloadTblSiswa');
         $this->tombolListHapus = true;
         $this->emit('reloadTblSiswa');
     }
 
-    public function getDelete($nis)
-    {
-        //hapus
-        $this->destroy($nis);
-    }
-
     public function destroy($nis)
     {
-        $this->selected = null;
+        $this->selected = [];
+        $this->selectedSiswa = [];
         $this->tombolListHapus = false;
 
         Siswa::find($nis)->delete();
