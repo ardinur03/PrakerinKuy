@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'keyMap'  => env('MAPBOX_KEY', 'pk.eyJ1IjoicHJha2VyaW5za3V5IiwiYSI6ImNrbTQ3ejk5MjAyM28yd2p4aWt6ZGV6dzUifQ.DSZM3Mu2l-SPqpdySxQwSA'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -169,6 +171,7 @@ return [
         /*
          * Package Service Providers...
          */
+        // Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,7 +236,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-
+        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
