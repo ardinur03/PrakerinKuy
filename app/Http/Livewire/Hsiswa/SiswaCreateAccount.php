@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Hsiswa;
 
 use App\Models\Siswa;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class SiswaCreateAccount extends Component
@@ -76,4 +78,24 @@ class SiswaCreateAccount extends Component
 
         'confirm_password.same' => 'Ketik ulang Password harus sama !!!',
     ];
+
+    public function storeAccountStudent()
+    {
+
+        $defaultPassword =  Hash::make($this->password);
+        User::create([
+            'username' => $this->nis,
+            'password' => $defaultPassword,
+        ]);
+
+        $userSiswa = User::find($this->nis);
+
+        // dd($userSiswa);
+
+        $siswa = Siswa::find($this->nis);
+
+        $siswa->update([
+            'user_id'    => $userSiswa['id'],
+        ]);
+    }
 }
