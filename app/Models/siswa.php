@@ -43,4 +43,10 @@ class Siswa extends Model
       : static::where('nama_siswa', 'like', '%' . $search . '%')
       ->orWhere('nis', 'like', '%' . $search . '%');
   }
+
+  public function getDataSiswaExcel()
+  {
+    return DB::table('siswa')->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
+      ->select(['siswa.nis', 'siswa.nama_siswa', 'siswa.kelas', 'jurusan.nama_jurusan', 'siswa.jk_siswa', 'siswa.alamat', 'siswa.kontak_siswa', 'siswa.angkatan'])->get();
+  }
 }
