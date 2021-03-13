@@ -18,12 +18,12 @@ class SiswaImport extends Component
     ];
 
     protected $rules = [
-        'fileSiswaCreate' => 'required|mimes:xlsx, xls'
+        'fileSiswaCreate' => 'mimes:xlsx, xls'
     ];
     protected $messages = [
-        'fileSiswaCreate.required' => 'File excsl harus terisi !!!',
+        'fileSiswaCreate.required' => 'File excel harus terisi !!!',
 
-        'fileSiswaCreate.mimes' => 'Jenis File haru berupa XLSX, XLS  !!!'
+        'fileSiswaCreate.mimes' => 'Jenis File harus berupa XLSX, XLS  !!!'
     ];
 
     // validasi real time
@@ -47,13 +47,15 @@ class SiswaImport extends Component
 
         $this->emit('alert-success', [
             'icon'  => 'success',
-            'title' => 'Apakah anda yakin ?',
+            'title' => 'Berhasil !!!',
             'text'  => "Data siswa berhasil di Import !!!",
             'type'  => 'success',
             'position' => 'center',
             'timer' =>  false,
             'showConfirmButton' => true,
         ]);
+
+        $this->initProperti();
         // refresh table raltime
         $this->emit('reloadTblSiswa');
     }
