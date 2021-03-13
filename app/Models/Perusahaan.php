@@ -26,9 +26,11 @@ class Perusahaan extends Model
         'jenis_perusahaan',
         'alamat_perusahaan',
         'kota_perusahaan',
+        'deskripsi_perusahaan',
         'kode_pos',
         'long',
-        'lat'
+        'lat',
+        'image'
     ];
 
     protected $dates = ['created_at', 'updated_at'];
