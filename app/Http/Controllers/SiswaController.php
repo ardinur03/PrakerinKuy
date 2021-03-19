@@ -24,9 +24,6 @@ class SiswaController extends Controller
             'dataUser' => $this->UserModel->getDataUser(Auth::user()->id)
             // 'siswa' => $this->SiswaModel->getData(),
         );
-
-        dd($data['dataUser']);
-
         return view('rolesViews/siswa/index_siswa', $data);
     }
 
