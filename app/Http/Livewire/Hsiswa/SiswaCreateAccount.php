@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Hsiswa;
 
+use App\Mail\NotifAccountCreate;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,7 @@ class SiswaCreateAccount extends Component
     public $kontak_siswa;
     public $angkatan;
     public $jk_siswa;
+    public $email_siswa;
 
     public $password;
     public $confirm_password;
@@ -57,6 +59,7 @@ class SiswaCreateAccount extends Component
         $this->nama_jurusan = $siswa->nama_jurusan;
         $this->alamat       = $siswa->alamat;
         $this->kontak_siswa = $siswa->kontak_siswa;
+        $this->email_siswa = $siswa->email_siswa;
         $this->angkatan = $siswa->angkatan;
         $this->jk_siswa = $siswa->jk_siswa;
         $this->dispatchBrowserEvent('openModalCreateAccount', 'modal_account_create_siswa');
@@ -70,6 +73,7 @@ class SiswaCreateAccount extends Component
         ];
     }
     protected $messages = [
+
         'password.required' => 'Password harus di isi !!!',
 
         'password.min' => 'Password harus 8 character !!!',
@@ -82,20 +86,41 @@ class SiswaCreateAccount extends Component
     public function storeAccountStudent()
     {
 
-        $defaultPassword =  Hash::make($this->password);
-        User::create([
-            'username' => $this->nis,
-            'password' => $defaultPassword,
-        ]);
+        $this->validate();
+        $siswa = $this->SiswaModel->leftjoin('jurusan', 'siswa.jurusan_id', '=', 'jurusan.id')
+            ->select('siswa.*', 'jurusan.nama_jurusan')->find($this->nis);
+        try {
+            $defaultPassword =  Hash::make($this->password);
 
-        $userSiswa = User::find($this->nis);
+            if ($siswa->user_id == null) {
+                User::create([
+                    'username' => $this->nis,
+                    'email' => $this->email_siswa,
+                    'password' => $defaultPassword,
+                ]);
 
-        // dd($userSiswa);
+                //kirim email
+                \Mail::to($this->email_siswa)->send(new NotifAccountCreate($this->nama_siswa, $this->nis, $this->password));
 
-        $siswa = Siswa::find($this->nis);
+                $this->dispatchBrowserEvent('closeModalCreateAccount');
+                // untuk refresh
+                $this->emit('reloadTblSiswa');
+                //memanggil alert sukses
+                $this->emit('siswaCreateAccountSuccess', $this->nama_siswa);
 
-        $siswa->update([
-            'user_id'    => $userSiswa['id'],
-        ]);
+                $this->initialisasiProperti();
+            } else {
+                $this->emit('siswaStoreAccountFail', $this->nama_siswa);
+            }
+        } catch (\Throwable $th) {
+            // dd('Ops..', $th->getMessage());
+            $this->emit('siswaStoreFail', $th->getMessage());
+        }
+    }
+
+    public function initialisasiProperti()
+    {
+        $this->password = null;
+        $this->confirm_password = null;
     }
 }
