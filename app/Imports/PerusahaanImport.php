@@ -16,16 +16,6 @@ class PerusahaanImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'nama_perusahaan' => 'required|unique:perusahaan',
-            'pimpinan_perusahaan' => 'required',
-            'email_perusahaan' => 'required',
-            'kontak_perusahaan' => 'required',
-            'jenis_perusahaan' => 'required',
-            'alamat_perusahaan' => 'required',
-            'kota_perusahaan' => 'required',
-        ];
-
-        return [
             'nama_perusahaan' => [
                 'required', 'unique:perusahaan'
             ],
@@ -57,7 +47,7 @@ class PerusahaanImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'nama_perusahaan.required' => ':attribute harus terisi',
-            'nama_perusahaan.unique' => 'Nama Perusahaan sudah terdaftar',
+            'nama_perusahaan.unique' => ':attribute sudah terdaftar',
 
             'nama_perusahaan.required' => ':attribute harus terisi',
             'pimpinan_perusahaan.required' => ':attribute harus terisi',
