@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Hsiswa;
 
 use App\Models\Jurusan;
 use App\Models\Siswa;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -21,6 +22,7 @@ class SiswaUpdate extends Component
     public $kontak_siswa;
     public $angkatan;
     public $jk_siswa;
+    public $updated_by = 0;
 
     protected $listeners = [
         'updateSiswa' => 'showModal'
@@ -73,7 +75,7 @@ class SiswaUpdate extends Component
     public function showModal(Siswa $siswa)
     {
         $this->jurusan_id = $siswa->jurusan_id;
-        $this->nis     = $siswa->nis;
+        $this->nis  = $siswa->nis;
         $this->nama_siswa = $siswa->nama_siswa;
         $this->kelas  = $siswa->kelas;
         $this->alamat = $siswa->alamat;
@@ -99,6 +101,7 @@ class SiswaUpdate extends Component
                 'kontak_siswa' => $this->kontak_siswa,
                 'angkatan' => $this->angkatan,
                 'jk_siswa' => $this->jk_siswa,
+                'updated_by' => Auth::user()->id
             ]);
 
             //untuk menutup POP-UP atau MODAL saat insert
@@ -149,5 +152,6 @@ class SiswaUpdate extends Component
         $this->kontak_siswa = null;
         $this->angkatan = null;
         $this->jk_siswa = null;
+        $this->updated_by = null;
     }
 }
