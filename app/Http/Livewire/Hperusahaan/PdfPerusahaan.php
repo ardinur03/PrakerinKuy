@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Hperusahaan;
 
 use App\Models\Perusahaan;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class PdfPerusahaan extends Component
@@ -26,7 +27,7 @@ class PdfPerusahaan extends Component
     public function render()
     {
         $data = array(
-            'perusahaan' => Perusahaan::latest()->get(),
+            'perusahaan' => DB::select('call getAllPerusahaanExcel'),
         );
         $this->emit('reloadTblPerusahaan');
         return view('livewire.hperusahaan.pdf-perusahaan', $data);
