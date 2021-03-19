@@ -5,12 +5,16 @@ namespace App\Http\Livewire\Hperusahaan;
 use Livewire\Component;
 use App\Models\Perusahaan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
 
 class PerusCreate extends Component
 {
-
-    public $long, $lat;
+    use WithFileUploads;
+    public $long;
+    public $lat;
+    public $image;
 
     public $geoJson;
 
@@ -35,6 +39,7 @@ class PerusCreate extends Component
         'jenis_perusahaan'  => 'required',
         'alamat_perusahaan' => 'required',
         'kota_perusahaan' => 'required',
+        'image' => 'image|max:2024',
         // 'kode_pos'          => 'required',
     ];
 
@@ -100,7 +105,7 @@ class PerusCreate extends Component
     public function render()
     {
         $this->loadLocations();
-        $this->emit('reloadModal');
+        // $this->emit('reloadModal');
         return view('livewire.hperusahaan.perus-create');
     }
 
@@ -110,6 +115,14 @@ class PerusCreate extends Component
         $this->validate();
 
         $this->kode_perusahaan = Str::random(5);
+        $imageName = md5($this->image . microtime()) . '.' . $this->image->extension();
+
+        Storage::putFileAs(
+            'public/image/perusahaan',
+            $this->image,
+            $imageName
+        );
+
         try {
             $perusahaan = Perusahaan::create([
                 'kode_perusahaan' =>  $this->kode_perusahaan,
@@ -125,7 +138,11 @@ class PerusCreate extends Component
                 'kode_pos' => $this->kode_pos,
                 'long' => $this->long,
                 'lat' => $this->lat,
+                'image' => $imageName,
             ]);
+            $this->loadLocations();
+            $this->dispatchBrowserEvent('locatonAdded', $this->geoJson);
+
             // untuk refresh
             $this->emit('reloadTblPerusahaan');
 
@@ -137,9 +154,6 @@ class PerusCreate extends Component
 
             //untuk menkosongkan form saat isert selesai
             $this->initialisasiModalPerus();
-
-            $this->emit('reloadModal');
-            $this->loadLocations();
         } catch (\Throwable $th) {
             DB::rollback();
             $this->emit('perusahaanStoreFail', $th->getMessage());
@@ -154,19 +168,20 @@ class PerusCreate extends Component
 
     public function initialisasiModalPerus()
     {
-        $this->long = null;
-        $this->lat = null;
-        $this->kode_perusahaan = null;
-        $this->kode_jurusan = null;
-        $this->nama_perusahaan = null;
-        $this->pimpinan_perusahaan = null;
-        $this->email_perusahaan = null;
-        $this->website_perusahaan = null;
-        $this->kontak_perusahaan = null;
-        $this->jenis_perusahaan = null;
-        $this->alamat_perusahaan = null;
-        $this->kota_perusahaan = null;
-        $this->kode_pos = null;
+        $this->long = '';
+        $this->lat = '';
+        $this->kode_perusahaan = '';
+        $this->kode_jurusan = '';
+        $this->nama_perusahaan = '';
+        $this->pimpinan_perusahaan = '';
+        $this->email_perusahaan = '';
+        $this->website_perusahaan = '';
+        $this->kontak_perusahaan = '';
+        $this->jenis_perusahaan = '';
+        $this->alamat_perusahaan = '';
+        $this->kota_perusahaan = '';
+        $this->kode_pos = '';
+        $this->image = '';
     }
 
     public function kosongLagLat()
