@@ -9,7 +9,7 @@ use Asantibanez\LivewireCharts\Models\PieChartModel;
 class Hchart extends Component
 {
 
-    public $siswaCount, $perusahaanCount;
+    public $siswaCount, $perusahaanCount, $jurusanCount;
     public $pengajuan = 0;
 
     protected $listeners = [
