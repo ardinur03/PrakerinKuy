@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Hsiswa;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\{Siswa, Jurusan};
+use Illuminate\Support\Facades\Auth;
 
 class SiswaCreate extends Component
 {
@@ -19,6 +20,10 @@ class SiswaCreate extends Component
   public $kontak_siswa;
   public $angkatan;
   public $jk_siswa;
+  public $email_siswa;
+
+  public $id_user;
+
 
   protected $rules = [
     'nis'         => 'required|unique:siswa|min:10|max:11',
@@ -26,7 +31,8 @@ class SiswaCreate extends Component
     'nama_siswa'  => 'required',
     'kelas'       => 'required',
     'alamat'      => 'required',
-    'kontak_siswa' => 'required',
+    'kontak_siswa' => 'required|max:13',
+    'email_siswa' => 'required|email|unique:siswa',
     'angkatan' => 'required',
     'jk_siswa' => 'required',
   ];
@@ -41,6 +47,10 @@ class SiswaCreate extends Component
     'kelas.required'      => 'Kelas tidak boleh kosong !!!',
     'alamat.required'     => 'Alamat tidak boleh kosong !!!',
     'kontak_siswa.required' => 'kontak tidak boleh kosong !!!',
+    'kontak_siswa.max' => 'Kontak Maximal 13 nomor !!!',
+    'email_siswa.required' => 'Email tidak boleh kosong !!!',
+    'email_siswa.unique' => 'Email sudah terdaftar !!!',
+    'email_siswa.email' => 'Format yang anda masukan bukan Email !!!',
     'angkatan.required' => 'Angkatan tidak boleh kosong !!!',
     'jk_siswa.required' => 'Jeis kelamin tidak boleh kosong !!!',
   ];
@@ -79,6 +89,8 @@ class SiswaCreate extends Component
   {
     // panggil validasi
     $this->validate();
+
+    $kontakSiswa = '+62' . $this->kontak_siswa;
     try {
       //proses simpan ke database
       $siswa = Siswa::create([
@@ -87,9 +99,11 @@ class SiswaCreate extends Component
         'nama_siswa'  => $this->nama_siswa,
         'kelas'       => $this->kelas,
         'alamat'      => $this->alamat,
-        'kontak_siswa' => $this->kontak_siswa,
+        'kontak_siswa' => $kontakSiswa,
+        'email_siswa' => $this->email_siswa,
         'angkatan' => $this->angkatan,
         'jk_siswa' => $this->jk_siswa,
+        'created_by' => Auth::user()->id,
       ]);
 
       //untuk menutup POP-UP atau MODAL saat insert
@@ -127,6 +141,7 @@ class SiswaCreate extends Component
     $this->kontak_siswa = null;
     $this->angkatan = null;
     $this->jk_siswa = null;
+    $this->email_siswa = null;
   }
 
   public function showConfirmation()
