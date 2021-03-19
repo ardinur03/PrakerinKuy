@@ -21,21 +21,22 @@ document.addEventListener('livewire:load', function () {
             type: "warning",
             showCancelButton: true,
             cancelButtonColor: 'var(--warning)',
+            cancelButtonText: 'Jangan !',
             confirmButtonColor: 'var(--danger)',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yaa, hapus ini !'
         }).then((result) => {
             //if user clicks on delete
             if (result.value) {
                 // calling destroy method to delete
                 Livewire.emit('DeleteSiswa', nis);
                 Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
+                'Terhapus !',
+                'Data siswa terhapus !!!.',
                 'success'
                 )
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
-                'Cancelled',
+                'Batal !!!',
                 'Data siswa tidak jadi di hapus :)',
                 'error'
                 )
@@ -44,8 +45,8 @@ document.addEventListener('livewire:load', function () {
     });
 });
 
-//SWEET-ALERT HAPUS SISWA SELECTED
-Livewire.on('deletesiswaSelected', (param) => {
+//SWEET-ALERT HAPUS SISWA SELECTED LIST
+Livewire.on('deleteConfirmSelected', (param) => {
     Swal.fire({
         icon: param['icon'],
         title:  param['title'],
@@ -54,29 +55,62 @@ Livewire.on('deletesiswaSelected', (param) => {
         showCancelButton: true,
         cancelButtonColor: 'var(--warning)',
         confirmButtonColor: 'var(--danger)',
-        confirmButtonText: 'Yes, delete it!'
+        cancelButtonText: 'Jangan !',
+        confirmButtonText: 'Yaa, hapus ini !'
     }).then((result) => {
         //if user clicks on delete
         if (result.value) {
             // calling destroy method to delete
-            Livewire.emit('destroyLIstSiswaJs', param['nis']);
+            Livewire.emit(param['method'], param['id']);
             Swal.fire({
             icon:'success',
             title:'Terhapus !!!',
-            text:`${param['jmlhListSiswa']} data Siswa berhasil di hapus`,
+            text:`${param['jmlhListSelected']} data Siswa berhasil di hapus`,
             confirmButtonColor: 'var(--success)',
             })
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire({
             icon:'error',
-            title:'Cancelled',
-            text:'Data siswa tidak jadi di hapus :)',
+            title:'Batal !!!',
+            text: `${param['jmlhListSelected']} Data ${param['name']} tidak jadi di hapus :)`,
             confirmButtonColor: 'var(--danger)',
             })
         }
     });
 });
 
+
+ document.addEventListener('livewire:load', function () {
+        Livewire.on('deletesingle', kode_perusahaan => {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Apakah anda yakin ?',
+                text: `Data Perusahaan ini akan Dihapus Permanent !!!`,
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonColor: 'var(--warning)',
+                confirmButtonColor: 'var(--danger)',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                //if user clicks on delete
+                if (result.value) {
+                    // calling destroy method to delete
+                    Livewire.emit('DeletedSingle', kode_perusahaan);
+                    Swal.fire(
+                    'Deleted!',
+                    'Data Perusahaan berhasil di hapus !!!.',
+                    'success'
+                    )
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                    'Cancelled',
+                    'Data perusahaan tidak jadi di hapus :)',
+                    'error'
+                    )
+                }
+            });
+        });
+    });
 
 livewire.on("alert-confirm", (param) => {
     Swal.fire({
