@@ -3,7 +3,10 @@
 namespace App\Http\Livewire\Hperusahaan;
 
 use App\Exports\PerusahaanExport;
+use App\Models\PengajuanSiswa;
 use App\Models\Perusahaan;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Schema\ForeignIdColumnDefinition;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -30,13 +33,19 @@ class TblPerusahaan extends Component
         'destroyLIstPerusJs' => 'destroyListPerus'
     ];
 
+    public function __construct()
+    {
+        $this->perusahaanModel = new Perusahaan();
+    }
+
     public function render()
     {
         $data = array(
             'title'      => 'Master Data Perusahaan',
-            'perusahaan' => $this->search === null ?  Perusahaan::latest()->paginate($this->paginate) : Perusahaan::latest()->where('kode_perusahaan', 'like', '%' . $this->search . '%')->orWhere('nama_perusahaan', 'like', '%' . $this->search . '%')->paginate($this->paginate),
+            'perusahaan' => $this->search === null ?  Perusahaan::latest()->leftjoin('jenis_perusahaan', 'perusahaan.jenis_id', '=', 'jenis_perusahaan.id')
+                ->select('perusahaan.*', 'jenis_perusahaan.*')->paginate($this->paginate) : Perusahaan::latest()->leftjoin('jenis_perusahaan', 'perusahaan.jenis_id', '=', 'jenis_perusahaan.id')
+                ->select('perusahaan.*', 'jenis_perusahaan.*')->where('kode_perusahaan', 'like', '%' . $this->search . '%')->orWhere('nama_perusahaan', 'like', '%' . $this->search . '%')->paginate($this->paginate),
         );
-
         return view('livewire.hperusahaan.tbl-perusahaan', $data)->extends('layouts.After_Login.app_backend', $data)
             ->section('content', $data);
     }
@@ -58,7 +67,21 @@ class TblPerusahaan extends Component
         //mengkosongkan selected perusahaan 1 = banyak
         $this->selectedAll = [];
         $this->tombolDeleteSelected = false;
-        Perusahaan::find($kode_perusahaan)->delete();
+        $getDataPengajuan = new PengajuanSiswa();
+        $dataPengajuan = $getDataPengajuan->getDataPengajuan();
+        if ($kode_perusahaan == $dataPengajuan[0]->kode_perusahaan) {
+            //panggil sweetalert sukses
+            $this->emit('alert-success', [
+                'position' => 'center',
+                'type'  => 'error',
+                'icon'  => 'error',
+                'title' => 'Gagal !!!',
+                'showConfirmButton' => true,
+                'text'  => 'Data perusahaan tidak bisa di hapus karena di pilih oleh siswa untuk prakerin !!!',
+            ]);
+        } else {
+            Perusahaan::find($kode_perusahaan)->delete();
+        }
         // untuk refresh
         $this->emit('reloadTblPerusahaan');
         $this->tombolDeleteSelected = true;
@@ -131,9 +154,5 @@ class TblPerusahaan extends Component
     public function exportPerusahaan()
     {
         return Excel::download(new PerusahaanExport, 'Perusahaan.xlsx');
-    }
-
-    public function printpdf()
-    {
     }
 }
