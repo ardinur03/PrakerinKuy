@@ -56,4 +56,14 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('users.id', $id)
             ->get();
     }
+
+    // public function siswacreate()
+    // {
+    //     return $this->belongsTo(Siswa::class, 'user_id');
+    // }
+
+    public function AdminHubin()
+    {
+        return $this->hasOne(AdminHubin::class, 'user_id');
+    }
 }
