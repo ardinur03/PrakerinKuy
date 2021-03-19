@@ -4,6 +4,7 @@ namespace App\Http\Middleware\Auth;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthAdminHubin
 {
@@ -16,13 +17,10 @@ class AuthAdminHubin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(sesssion('roles') === 2) {
+        if (Auth::user()->roles === 2) {
             return $next($request);
         } else {
-            session()->flush();
-            return redirect()->route('/');
+            return redirect()->back()->with('error_page_hubin', 'Anda tidak bisa mengakses halaman ini !!!');
         }
-
-        return $next($request);
     }
 }
